@@ -30,4 +30,9 @@ public class UserController {
         return userDto;
     }
 
+    @GetMapping("/{userId}")
+    public UserDto getUser(@PathVariable @Positive long userId) {
+        log.info("Запрос пользователя id = '{}'", userId);
+        return null;
+    }
 }
