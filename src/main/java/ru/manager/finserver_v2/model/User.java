@@ -1,8 +1,10 @@
 package ru.manager.finserver_v2.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
+@Builder
 @Table(name = "users")
 public class User {
     
