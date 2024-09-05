@@ -1,14 +1,20 @@
 package ru.manager.finserver_v2.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.UserDto;
+import ru.manager.finserver_v2.mapper.UserMapper;
+import ru.manager.finserver_v2.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final UserRepository userStorage;
     
     @Override
     public UserDto createUser(UserDto userDto) {
-        return null;
+        return UserMapper.toUserDto(userStorage.save(UserMapper.toUser(userDto)));
     }
 
     @Override
