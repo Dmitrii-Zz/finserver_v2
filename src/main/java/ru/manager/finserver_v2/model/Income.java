@@ -7,4 +7,5 @@ public class Income {
     private BigDecimal count;
     private String note;
     private LocalDate date;
+    private User owner;
 }
