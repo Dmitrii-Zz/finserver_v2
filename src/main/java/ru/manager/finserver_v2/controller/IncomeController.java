@@ -9,6 +9,8 @@ import ru.manager.finserver_v2.dto.IncomeDto;
 
 import java.util.List;
 
+import static ru.manager.finserver_v2.constant.Constants.USER_HEADER_ID;
+
 @Slf4j
 @Validated
 @RestController
@@ -16,20 +18,22 @@ import java.util.List;
 public class IncomeController {
 
     @PostMapping
-    public IncomeDto addIncome(@RequestBody @Valid IncomeDto incomeDto) {
-        log.info("Запрос на создание записи дохода.");
+    public IncomeDto addIncome(@RequestBody @Valid IncomeDto incomeDto,
+                               @RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя № '{}' на создание записи дохода.", userId);
         return null;
     }
 
     @GetMapping("/{incomeId}")
-    public IncomeDto getIncome(@Positive long incomeId) {
-        log.info("Запрос траты № '{}'.", incomeId);
+    public IncomeDto getIncome(@Positive long incomeId,
+                               @RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя '{}' траты № '{}'.", userId, incomeId);
         return null;
     }
 
     @GetMapping
-    public List<String> getListIncome() {
-        log.info("Запрос списка трат с фильтрами.");
+    public List<String> getListIncome(@RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя '{}' списка трат с фильтрами.", userId);
         // Фильтры могут быть: период, категории, подкатегории
         // больше, меньше или равно определенной сумме
         // Фильтр по ключевому слову по полю note
@@ -38,14 +42,16 @@ public class IncomeController {
 
     @PatchMapping("/{incomeId}")
     public IncomeDto updateIncome(@RequestBody @Valid IncomeDto incomeDto,
-                                  @PathVariable @Positive long incomeId) {
-        log.info("Запрос на обновление траты № '{}'", incomeId);
+                                  @PathVariable @Positive long incomeId,
+                                  @RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя '{}' на обновление траты № '{}'", userId, incomeId);
         return null;
     }
 
     @DeleteMapping("/{incomeId}")
-    public String deleteIncome(@PathVariable @Positive long incomeId) {
-        log.info("Запрос на удаление траты № '{}'", incomeId);
+    public String deleteIncome(@PathVariable @Positive long incomeId,
+                               @RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя '{}' на удаление траты № '{}'", userId, incomeId);
         return null;
     }
 }
