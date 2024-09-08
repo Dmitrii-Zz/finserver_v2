@@ -1,10 +1,11 @@
-package ru.manager.finserver_v2.service;
+package ru.manager.finserver_v2.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.UserMapper;
 import ru.manager.finserver_v2.repository.UserRepository;
+import ru.manager.finserver_v2.service.interfaces.UserService;
 
 @Service
 @RequiredArgsConstructor
