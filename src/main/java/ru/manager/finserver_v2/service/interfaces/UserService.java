@@ -1,4 +1,4 @@
-package ru.manager.finserver_v2.service;
+package ru.manager.finserver_v2.service.interfaces;
 
 import ru.manager.finserver_v2.dto.UserDto;
 
