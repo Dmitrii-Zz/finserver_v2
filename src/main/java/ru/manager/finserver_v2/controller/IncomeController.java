@@ -25,7 +25,7 @@ public class IncomeController {
     }
 
     @GetMapping("/{incomeId}")
-    public IncomeDto getIncome(@Positive long incomeId,
+    public IncomeDto getIncome(@PathVariable @Positive long incomeId,
                                @RequestHeader(USER_HEADER_ID) @Positive long userId) {
         log.info("Запрос от пользователя '{}' траты № '{}'.", userId, incomeId);
         return null;
