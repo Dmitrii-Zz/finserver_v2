@@ -2,10 +2,12 @@ package ru.manager.finserver_v2.controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.manager.finserver_v2.dto.IncomeDto;
+import ru.manager.finserver_v2.service.interfaces.IncomeService;
 
 import java.util.List;
 
@@ -14,14 +16,17 @@ import static ru.manager.finserver_v2.constant.Constants.USER_HEADER_ID;
 @Slf4j
 @Validated
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/finserver/income")
 public class IncomeController {
+
+    private final IncomeService incomeServiceImpl;
 
     @PostMapping
     public IncomeDto addIncome(@RequestBody @Valid IncomeDto incomeDto,
                                @RequestHeader(USER_HEADER_ID) @Positive long userId) {
         log.info("Запрос от пользователя № '{}' на создание записи дохода.", userId);
-        return null;
+        return incomeServiceImpl.addIncome(incomeDto, userId);
     }
 
     @GetMapping("/{incomeId}")
