@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.UserMapper;
+import ru.manager.finserver_v2.model.User;
 import ru.manager.finserver_v2.repository.UserRepository;
 import ru.manager.finserver_v2.service.interfaces.UserService;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUser(long userId) {
-        return null;
+        Optional<User> userOptional = userStorage.findById(userId);
+
+        if (userOptional.isEmpty()) {
+            throw new RuntimeException("Пользователя с '" + userId + "' не существует!");
+        }
+
+        return UserMapper.toUserDto(userOptional.get());
     }
 
     @Override
