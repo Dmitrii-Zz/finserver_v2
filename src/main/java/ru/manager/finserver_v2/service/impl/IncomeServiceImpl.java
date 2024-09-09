@@ -6,6 +6,7 @@ import ru.manager.finserver_v2.dto.IncomeDto;
 import ru.manager.finserver_v2.mapper.IncomeMapper;
 import ru.manager.finserver_v2.repository.IncomeRepository;
 import ru.manager.finserver_v2.service.interfaces.IncomeService;
+import ru.manager.finserver_v2.service.interfaces.UserService;
 
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 public class IncomeServiceImpl implements IncomeService {
 
     private final IncomeRepository incomeStorage;
+    private final UserService UserServiceImpl;
 
     @Override
     public IncomeDto addIncome(IncomeDto incomeDto, long userId) {
+        incomeDto.setOwner(UserServiceImpl.getUser(userId));
         return IncomeMapper.toIncomeDto(incomeStorage.save(IncomeMapper.toIncome(incomeDto)));
     }
 
