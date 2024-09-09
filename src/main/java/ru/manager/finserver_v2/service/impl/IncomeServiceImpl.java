@@ -1,15 +1,23 @@
 package ru.manager.finserver_v2.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.IncomeDto;
+import ru.manager.finserver_v2.mapper.IncomeMapper;
+import ru.manager.finserver_v2.repository.IncomeRepository;
 import ru.manager.finserver_v2.service.interfaces.IncomeService;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class IncomeServiceImpl implements IncomeService {
-    
+
+    private final IncomeRepository incomeStorage;
+
     @Override
     public IncomeDto addIncome(IncomeDto incomeDto, long userId) {
-        return null;
+        return IncomeMapper.toIncomeDto(incomeStorage.save(IncomeMapper.toIncome(incomeDto)));
     }
 
     @Override
