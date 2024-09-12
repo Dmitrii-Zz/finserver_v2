@@ -42,9 +42,12 @@ public class BillController {
         return billServiceImpl.getAllBill(userId);
     }
 
-    @PatchMapping
-    public BillDto updateBill() {
-        return null;
+    @PatchMapping("/{billId}")
+    public BillDto updateBill(@RequestHeader(USER_HEADER_ID) @Positive long userId,
+                              @PathVariable @Positive long billId,
+                              @RequestBody @Valid BillDto billDto) {
+        log.info("Запрос от пользователя № '{}' на обновление счета № '{}'.", userId, billId);
+        return billServiceImpl.updateBill(billDto, userId, billId);
     }
 
     @DeleteMapping
