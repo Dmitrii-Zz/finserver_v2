@@ -30,7 +30,7 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public BillDto updateBill(BillDto billDto, long userId) {
+    public BillDto updateBill(BillDto billDto, long userId, long billId) {
         return null;
     }
 

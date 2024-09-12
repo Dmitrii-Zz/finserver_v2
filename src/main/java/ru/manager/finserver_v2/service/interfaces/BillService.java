@@ -8,6 +8,6 @@ public interface BillService {
     BillDto createBill(BillDto billDto, long userId);
     BillDto getBillById(long billId, long userId);
     List<BillDto> getAllBill(long userId);
-    BillDto updateBill(BillDto billDto, long userId);
+    BillDto updateBill(BillDto billDto, long userId, long billId);
     void deleteBill(long billId, long userId);
 }
