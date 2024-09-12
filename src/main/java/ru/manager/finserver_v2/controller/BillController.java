@@ -37,8 +37,9 @@ public class BillController {
     }
 
     @GetMapping
-    public List<BillDto> getAllBill() {
-        return null;
+    public List<BillDto> getAllBill(@RequestHeader(USER_HEADER_ID) @Positive long userId) {
+        log.info("Запрос от пользователя № '{}' всех счетов.", userId);
+        return billServiceImpl.getAllBill(userId);
     }
 
     @PatchMapping
