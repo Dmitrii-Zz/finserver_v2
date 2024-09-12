@@ -25,13 +25,15 @@ public class BillController {
     @PostMapping
     public BillDto createBill(@RequestBody @Valid BillDto billDto,
                               @RequestHeader(USER_HEADER_ID) @Positive long userId) {
-        log.info("Запрос от пользователя '{}' на создание счёта '{}'.", userId, billDto.getName());
+        log.info("Запрос от пользователя № '{}' на создание счёта № '{}'.", userId, billDto.getName());
         return billServiceImpl.createBill(billDto, userId);
     }
 
-    @GetMapping
-    public BillDto getBillById() {
-        return null;
+    @GetMapping("/{billId}")
+    public BillDto getBillById(@RequestHeader(USER_HEADER_ID) @Positive long userId,
+                               @PathVariable @Positive long billId) {
+        log.info("Запрос от пользователя № '{}' информации о счете № '{}'", userId, billId);
+        return billServiceImpl.getBillById(billId, userId);
     }
 
     @GetMapping
