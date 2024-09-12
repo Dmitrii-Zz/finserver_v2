@@ -50,8 +50,10 @@ public class BillController {
         return billServiceImpl.updateBill(billDto, userId, billId);
     }
 
-    @DeleteMapping
-    public void deleteBill() {
-
+    @DeleteMapping("/{billId}")
+    public void deleteBill(@RequestHeader(USER_HEADER_ID) @Positive long userId,
+                           @PathVariable @Positive long billId) {
+        log.info("Запрос от пользователя № '{}' на удаление счета № '{}'.", userId, billId);
+        billServiceImpl.deleteBill(billId, userId);
     }
 }
