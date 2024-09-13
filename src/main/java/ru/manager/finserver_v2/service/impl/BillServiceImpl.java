@@ -44,6 +44,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<BillDto> getAllBill(long userId) {
+
         return List.of();
     }
 
@@ -54,6 +55,17 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void deleteBill(long billId, long userId) {
+        UserDto userDto = userServiceImpl.getUser(userId);
+        Optional<Bill> billOptional = billStorage.findById(billId);
 
+        if (billOptional.isEmpty()) {
+            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+        }
+
+        if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
+            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+        }
+
+        billStorage.delete(billOptional.get());
     }
 }
