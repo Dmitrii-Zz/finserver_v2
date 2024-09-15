@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.manager.finserver_v2.dto.BillDto;
+import ru.manager.finserver_v2.dto.BillUpdateDto;
 import ru.manager.finserver_v2.service.interfaces.BillService;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class BillController {
     @PatchMapping("/{billId}")
     public BillDto updateBill(@RequestHeader(USER_HEADER_ID) @Positive long userId,
                               @PathVariable @Positive long billId,
-                              @RequestBody @Valid BillDto billDto) {
+                              @RequestBody @Valid BillUpdateDto billDto) {
         log.info("Запрос от пользователя № '{}' на обновление счета № '{}'.", userId, billId);
         return billServiceImpl.updateBill(billDto, userId, billId);
     }
