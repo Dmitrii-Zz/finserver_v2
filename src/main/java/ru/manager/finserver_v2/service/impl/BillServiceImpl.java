@@ -53,7 +53,29 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public BillDto updateBill(BillUpdateDto billDto, long userId, long billId) {
-        return null;
+        Optional<Bill> billOptional = billStorage.findById(billId);
+
+        if (billOptional.isEmpty()) {
+            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+        }
+
+        Bill updateBill = billOptional.get();
+
+        UserDto userDto = userServiceImpl.getUser(userId);
+
+        if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
+            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+        }
+
+        if (billDto.getName() != null) {
+            updateBill.setName(billDto.getName());
+        }
+
+        if (billDto.getCount() != null) {
+            updateBill.setCount(billDto.getCount());
+        }
+        
+        return BillMapper.toBillDto(billStorage.save(updateBill));
     }
 
     @Override
