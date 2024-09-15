@@ -3,6 +3,7 @@ package ru.manager.finserver_v2.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.BillDto;
+import ru.manager.finserver_v2.dto.BillUpdateDto;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.BillMapper;
 import ru.manager.finserver_v2.model.Bill;
@@ -51,7 +52,7 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public BillDto updateBill(BillDto billDto, long userId, long billId) {
+    public BillDto updateBill(BillUpdateDto billDto, long userId, long billId) {
         return null;
     }
 
