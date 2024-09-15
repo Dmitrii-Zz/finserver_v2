@@ -12,6 +12,7 @@ import ru.manager.finserver_v2.service.interfaces.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,8 +45,9 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<BillDto> getAllBill(long userId) {
-
-        return List.of();
+        return billStorage.findAllByOwnerUserId(userId).stream()
+                .map(BillMapper::toBillDto)
+                .collect(Collectors.toList());
     }
 
     @Override
