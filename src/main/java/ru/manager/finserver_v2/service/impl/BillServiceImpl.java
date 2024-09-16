@@ -7,6 +7,8 @@ import ru.manager.finserver_v2.dto.BillUpdateDto;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.BillMapper;
 import ru.manager.finserver_v2.model.Bill;
+import ru.manager.finserver_v2.model.except.BillNotFoundException;
+import ru.manager.finserver_v2.model.except.NoAccessBillException;
 import ru.manager.finserver_v2.repository.BillRepository;
 import ru.manager.finserver_v2.service.interfaces.BillService;
 import ru.manager.finserver_v2.service.interfaces.UserService;
@@ -34,11 +36,11 @@ public class BillServiceImpl implements BillService {
         Optional<Bill> billOptional = billStorage.findById(billId);
 
         if (billOptional.isEmpty()) {
-            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
         }
 
         if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
-            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
         }
 
         return BillMapper.toBillDto(billOptional.get());
@@ -56,7 +58,7 @@ public class BillServiceImpl implements BillService {
         Optional<Bill> billOptional = billStorage.findById(billId);
 
         if (billOptional.isEmpty()) {
-            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
         }
 
         Bill updateBill = billOptional.get();
@@ -64,7 +66,7 @@ public class BillServiceImpl implements BillService {
         UserDto userDto = userServiceImpl.getUser(userId);
 
         if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
-            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
         }
 
         if (billDto.getName() != null) {
@@ -84,11 +86,11 @@ public class BillServiceImpl implements BillService {
         Optional<Bill> billOptional = billStorage.findById(billId);
 
         if (billOptional.isEmpty()) {
-            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
         }
 
         if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
-            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
         }
 
         billStorage.delete(billOptional.get());
