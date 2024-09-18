@@ -28,7 +28,6 @@ public class IncomeDto {
     private LocalDate date;
 
     private UserDto owner;
-
-    @NotNull
-    private Long billDto;
+    
+    private BillDto billDto;
 }
