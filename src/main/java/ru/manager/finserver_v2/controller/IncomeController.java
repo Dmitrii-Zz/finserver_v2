@@ -27,7 +27,7 @@ public class IncomeController {
                                @RequestHeader(USER_HEADER_ID) @Positive long userId,
                                @RequestParam @Positive long billId) {
         log.info("Запрос от пользователя № '{}' на создание записи дохода на счёт № '{}'.", userId, billId);
-        return incomeServiceImpl.addIncome(incomeDto, userId);
+        return incomeServiceImpl.addIncome(incomeDto, userId, billId);
     }
 
     @GetMapping("/{incomeId}")
