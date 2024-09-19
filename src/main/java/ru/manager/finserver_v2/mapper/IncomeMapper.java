@@ -1,6 +1,7 @@
 package ru.manager.finserver_v2.mapper;
 
 import ru.manager.finserver_v2.dto.IncomeDto;
+import ru.manager.finserver_v2.model.Bill;
 import ru.manager.finserver_v2.model.Income;
 
 public class IncomeMapper {
@@ -12,6 +13,7 @@ public class IncomeMapper {
                 .note(incomeDto.getNote())
                 .date(incomeDto.getDate())
                 .owner(UserMapper.toUser(incomeDto.getOwner()))
+                .bill(BillMapper.toBill(incomeDto.getBillDto()))
                 .build();
     }
 
@@ -22,6 +24,7 @@ public class IncomeMapper {
                 .note(income.getNote())
                 .date(income.getDate())
                 .owner(UserMapper.toUserDto(income.getOwner()))
+                .billDto(BillMapper.toBillDto(income.getBill()))
                 .build();
     }
 }
