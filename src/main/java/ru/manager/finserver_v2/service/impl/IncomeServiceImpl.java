@@ -18,7 +18,7 @@ public class IncomeServiceImpl implements IncomeService {
     private final UserService UserServiceImpl;
 
     @Override
-    public IncomeDto addIncome(IncomeDto incomeDto, long userId) {
+    public IncomeDto addIncome(IncomeDto incomeDto, long userId, long billId) {
         incomeDto.setOwner(UserServiceImpl.getUser(userId));
         return IncomeMapper.toIncomeDto(incomeStorage.save(IncomeMapper.toIncome(incomeDto)));
     }
