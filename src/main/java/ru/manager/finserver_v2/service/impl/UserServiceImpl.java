@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.UserMapper;
 import ru.manager.finserver_v2.model.User;
+import ru.manager.finserver_v2.model.except.UserNotFoundException;
 import ru.manager.finserver_v2.repository.UserRepository;
 import ru.manager.finserver_v2.service.interfaces.UserService;
 
@@ -31,7 +32,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userStorage.findById(userId);
 
         if (userOptional.isEmpty()) {
-            throw new RuntimeException("Пользователя с '" + userId + "' не существует!");
+            throw new UserNotFoundException("Пользователя с '" + userId + "' не существует!");
         }
 
         return UserMapper.toUserDto(userOptional.get());

@@ -3,15 +3,19 @@ package ru.manager.finserver_v2.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.BillDto;
+import ru.manager.finserver_v2.dto.BillUpdateDto;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.BillMapper;
 import ru.manager.finserver_v2.model.Bill;
+import ru.manager.finserver_v2.model.except.BillNotFoundException;
+import ru.manager.finserver_v2.model.except.NoAccessBillException;
 import ru.manager.finserver_v2.repository.BillRepository;
 import ru.manager.finserver_v2.service.interfaces.BillService;
 import ru.manager.finserver_v2.service.interfaces.UserService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,11 +36,11 @@ public class BillServiceImpl implements BillService {
         Optional<Bill> billOptional = billStorage.findById(billId);
 
         if (billOptional.isEmpty()) {
-            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
         }
 
         if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
-            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
         }
 
         return BillMapper.toBillDto(billOptional.get());
@@ -44,13 +48,36 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public List<BillDto> getAllBill(long userId) {
-
-        return List.of();
+        return billStorage.findAllByOwnerUserId(userId).stream()
+                .map(BillMapper::toBillDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public BillDto updateBill(BillDto billDto, long userId, long billId) {
-        return null;
+    public BillDto updateBill(BillUpdateDto billDto, long userId, long billId) {
+        Optional<Bill> billOptional = billStorage.findById(billId);
+
+        if (billOptional.isEmpty()) {
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
+        }
+
+        Bill updateBill = billOptional.get();
+
+        UserDto userDto = userServiceImpl.getUser(userId);
+
+        if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
+        }
+
+        if (billDto.getName() != null) {
+            updateBill.setName(billDto.getName());
+        }
+
+        if (billDto.getCount() != null) {
+            updateBill.setCount(billDto.getCount());
+        }
+        
+        return BillMapper.toBillDto(billStorage.save(updateBill));
     }
 
     @Override
@@ -59,11 +86,11 @@ public class BillServiceImpl implements BillService {
         Optional<Bill> billOptional = billStorage.findById(billId);
 
         if (billOptional.isEmpty()) {
-            throw new RuntimeException("Счёт № '" + billId + "' отсутствует.");
+            throw new BillNotFoundException("Счёт № '" + billId + "' отсутствует.");
         }
 
         if (userDto.getId() != billOptional.get().getOwner().getUserId()) {
-            throw new RuntimeException("Отсутствует доступ к счету № " + billId);
+            throw new NoAccessBillException("Отсутствует доступ к счету № " + billId);
         }
 
         billStorage.delete(billOptional.get());
