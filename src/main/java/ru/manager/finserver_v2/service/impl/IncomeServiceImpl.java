@@ -37,7 +37,7 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public IncomeDto getIncome(long incomeId, long userId) {
-        return IncomeMapper.toIncomeDto(incomeStorage.findByIncomeIdAndUserId(incomeId, userId));
+        return IncomeMapper.toIncomeDto(incomeStorage.findByIncomeIdAndOwnerUserId(incomeId, userId));
     }
 
     @Override
