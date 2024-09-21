@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.BillDto;
 import ru.manager.finserver_v2.dto.IncomeDto;
 import ru.manager.finserver_v2.dto.UserDto;
+import ru.manager.finserver_v2.mapper.BillMapper;
 import ru.manager.finserver_v2.mapper.IncomeMapper;
 import ru.manager.finserver_v2.repository.IncomeRepository;
 import ru.manager.finserver_v2.service.interfaces.BillService;
@@ -29,6 +30,7 @@ public class IncomeServiceImpl implements IncomeService {
         incomeDto.setOwner(userDto);
 
         billDto.setCount(billDto.getCount().add(incomeDto.getCount()));
+        billServiceImpl.updateBill(BillMapper.toBillUpdateBillDto(billDto), userId, billId);
 
         return IncomeMapper.toIncomeDto(incomeStorage.save(IncomeMapper.toIncome(incomeDto)));
     }
