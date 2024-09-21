@@ -13,7 +13,9 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "bills")
+@Table(name = "bills",
+        uniqueConstraints = @UniqueConstraint(name = "name_bill_and_user_id",
+        columnNames = {"name", "user_id"}))
 public class Bill {
 
     @Id
