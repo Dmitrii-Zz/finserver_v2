@@ -34,15 +34,12 @@ public class IncomeController {
     public IncomeDto getIncome(@PathVariable @Positive long incomeId,
                                @RequestHeader(USER_HEADER_ID) @Positive long userId) {
         log.info("Запрос от пользователя '{}' траты № '{}'.", userId, incomeId);
-        return null;
+        return incomeServiceImpl.getIncome(incomeId, userId);
     }
 
     @GetMapping
     public List<String> getListIncome(@RequestHeader(USER_HEADER_ID) @Positive long userId) {
         log.info("Запрос от пользователя '{}' списка трат с фильтрами.", userId);
-        // Фильтры могут быть: период, категории, подкатегории
-        // больше, меньше или равно определенной сумме
-        // Фильтр по ключевому слову по полю note
         return null;
     }
 
