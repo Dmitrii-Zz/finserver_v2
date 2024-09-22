@@ -1,5 +1,6 @@
 package ru.manager.finserver_v2.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.manager.finserver_v2.dto.BillDto;
@@ -60,7 +61,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
+    @Transactional
     public void deleteIncome(long incomeId, long userId) {
-
+        incomeStorage.deleteByIncomeIdAndOwnerUserId(incomeId, userId);
     }
 }

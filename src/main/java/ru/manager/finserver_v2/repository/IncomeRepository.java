@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface IncomeRepository extends JpaRepository<Income, Long> {
     Optional<Income> findByIncomeIdAndOwnerUserId(long incomeId, long userId);
+    void deleteByIncomeIdAndOwnerUserId(long incomeId, long userId);
 }

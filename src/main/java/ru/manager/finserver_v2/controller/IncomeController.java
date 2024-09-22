@@ -52,9 +52,9 @@ public class IncomeController {
     }
 
     @DeleteMapping("/{incomeId}")
-    public String deleteIncome(@PathVariable @Positive long incomeId,
+    public void deleteIncome(@PathVariable @Positive long incomeId,
                                @RequestHeader(USER_HEADER_ID) @Positive long userId) {
         log.info("Запрос от пользователя '{}' на удаление траты № '{}'", userId, incomeId);
-        return null;
+        incomeServiceImpl.deleteIncome(incomeId, userId);
     }
 }
