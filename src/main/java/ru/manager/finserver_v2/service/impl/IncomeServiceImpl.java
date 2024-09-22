@@ -7,12 +7,15 @@ import ru.manager.finserver_v2.dto.IncomeDto;
 import ru.manager.finserver_v2.dto.UserDto;
 import ru.manager.finserver_v2.mapper.BillMapper;
 import ru.manager.finserver_v2.mapper.IncomeMapper;
+import ru.manager.finserver_v2.model.Income;
+import ru.manager.finserver_v2.model.except.IncomeNotFoundException;
 import ru.manager.finserver_v2.repository.IncomeRepository;
 import ru.manager.finserver_v2.service.interfaces.BillService;
 import ru.manager.finserver_v2.service.interfaces.IncomeService;
 import ru.manager.finserver_v2.service.interfaces.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +40,13 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override
     public IncomeDto getIncome(long incomeId, long userId) {
-        return IncomeMapper.toIncomeDto(incomeStorage.findByIncomeIdAndOwnerUserId(incomeId, userId));
+        Optional<Income> incomeOptional = incomeStorage.findByIncomeIdAndOwnerUserId(incomeId, userId);
+
+        if (incomeOptional.isEmpty()) {
+            throw new IncomeNotFoundException("Отсутствует запись дохода № '" + incomeId + "' или доступ к ней!");
+        }
+
+        return IncomeMapper.toIncomeDto(incomeOptional.get());
     }
 
     @Override
